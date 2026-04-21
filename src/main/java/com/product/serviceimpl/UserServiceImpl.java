@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.product.dto.AddUserDto;
 import com.product.dto.EmailOtpVerifyDto;
+import com.product.entity.User;
 import com.product.event.SimpleMessageEvent;
-import com.product.service.MailService;
+import com.product.mapping.ModelMapper;
+import com.product.repository.UserRepository;
 import com.product.service.UserService;
 import com.product.util.EmailMessageBuilderUtil;
 
@@ -26,8 +28,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private Random random;
 
-	@Autowired
-	private MailService mailService;
+//	@Autowired
+//	private MailService mailService;
 
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
@@ -35,6 +37,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("otpHolder")
 	private Map<String, Object[]> otpHolder;
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public String initiateUserVerificationService(AddUserDto dto) {
@@ -47,7 +55,7 @@ public class UserServiceImpl implements UserService {
 				.subject("Products alert: OTP").build();
 		eventPublisher.publishEvent(emailEvent);
 
-		Object[] tempOtpData = { otp, LocalDateTime.now().plusMinutes(2), dto };
+		Object[] tempOtpData = { otp + "", LocalDateTime.now().plusMinutes(5), dto };
 		otpHolder.put(dto.getEmail(), tempOtpData);
 //		for (Entry<String, Object[]> e : otpHolder.entrySet()) {
 //			System.out.println(e);
@@ -69,11 +77,21 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException("Time over, use keypad");
 		}
 
-		String inMemoryOtp = String.valueOf(tempUserData[0]);
+		String inMemoryOtp = (String) tempUserData[0];
 		String userOtp = dto.getOtp();
 		if (!inMemoryOtp.equals(userOtp)) {
 			throw new RuntimeException("Invalid OTP");
 		}
+
+		// TODO get user object from dto, save the object in db
+		AddUserDto userDto = (AddUserDto) tempUserData[2];
+		User user = modelMapper.addUserDtoToUserEntity(userDto);
+		userRepository.save(user);
+
+		String message = emailMessageBuilderUtil.userRegisterMessageBuilder(userDto.getName());
+		SimpleMessageEvent event = SimpleMessageEvent.builder().receiverEmail(dto.getEmail()).message(message)
+				.subject("ALERT: User Registration").build();
+		eventPublisher.publishEvent(event);
 
 		return "User Saved";
 	}
