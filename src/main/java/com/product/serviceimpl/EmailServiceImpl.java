@@ -18,9 +18,9 @@ public class EmailServiceImpl implements MailService {
 	private String senderId;
 
 	@Override
-	public boolean sentEmail(String receiverId, String message,String subject) {
+	public boolean sentEmail(String receiverId, String message, String subject) {
 		try {
-			SimpleMailMessage mailMessage=new SimpleMailMessage();
+			SimpleMailMessage mailMessage = new SimpleMailMessage();
 			mailMessage.setTo(receiverId);
 			mailMessage.setFrom(senderId);
 			mailMessage.setSubject(subject);

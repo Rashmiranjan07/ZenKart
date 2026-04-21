@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@Cacheable(value="product",key="#id")
+	@Cacheable(value = "product", key = "#id")
 	public Product getProductByIdService(Long id) {
 		Optional<Product> optProduct = productRepo.findById(id);
 		if (optProduct.isEmpty()) {
@@ -55,16 +55,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product deleteProductByIdService(Long id) {
-		Product product=getProductByIdService(id);
+		Product product = getProductByIdService(id);
 		product.setIsActive(false);
-		product=productRepo.save(product);
+		product = productRepo.save(product);
 		return product;
 	}
 
 	@Override
 	@Transactional
 	public Product updateProductByIdService(Long id, AddProductDto dto) {
-		Product product=getProductByIdService(id);
+		Product product = getProductByIdService(id);
 		product.setName(dto.getName());
 		product.setBrand(dto.getBrand());
 		product.setDescription(dto.getDescription());
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setCatagory(dto.getCatagory());
 		product.setStock(dto.getStock());
 		product.setUpdateAt(LocalDateTime.now());
-		product=productRepo.save(product);
+		product = productRepo.save(product);
 		return product;
 	}
 
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 		Comparator<Product> desc = (i, j) -> j.getPrice().compareTo(i.getPrice());
 		Comparator<Product> comparator = (sorting.equals("ASC")) ? asc : desc;
 		List<Product> products = productRepo.getByCatagory(catagory);
-		products=products.stream().filter(i->i.getIsActive()).sorted(comparator).toList();
+		products = products.stream().filter(i -> i.getIsActive()).sorted(comparator).toList();
 		return products;
 	}
 
@@ -93,8 +93,7 @@ public class ProductServiceImpl implements ProductService {
 		if (sorting == null || sorting.equalsIgnoreCase("NONE")) {
 			return getProductByPageService(pageNo, pageSize);
 		}
-		Sort sort = (sorting.equalsIgnoreCase("ASC")) ?
-				Sort.by("price").ascending() : Sort.by("price").descending();
+		Sort sort = (sorting.equalsIgnoreCase("ASC")) ? Sort.by("price").ascending() : Sort.by("price").descending();
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<Product> page = productRepo.findAll(pageable);
 		return page.getContent();
@@ -106,22 +105,21 @@ public class ProductServiceImpl implements ProductService {
 		Page<Product> page = productRepo.findAll(pageable);
 		return page.getContent();
 	}
-	
+
 	@Override
 	public List<Product> getProductByPriceRange(Double min, Double max, String sort) {
 
-	    List<Product> products = productRepo.findByPriceBetween(min, max);
+		List<Product> products = productRepo.findByPriceBetween(min, max);
 
-	    // Sorting logic
-	    if (sort != null && sort.equalsIgnoreCase("desc")) {
-	        products.sort((p1, p2) -> p2.getPrice().compareTo(p1.getPrice()));
-	    } else {
-	        products.sort((p1, p2) -> p1.getPrice().compareTo(p2.getPrice()));
-	    }
+		// Sorting logic
+		if (sort != null && sort.equalsIgnoreCase("desc")) {
+			products.sort((p1, p2) -> p2.getPrice().compareTo(p1.getPrice()));
+		} else {
+			products.sort((p1, p2) -> p1.getPrice().compareTo(p2.getPrice()));
+		}
 
-	    return products;
+		return products;
 	}
-	
 
 	@Override
 	@Transactional
@@ -131,6 +129,7 @@ public class ProductServiceImpl implements ProductService {
 		product = productRepo.save(product);
 		return "new inventory stock is " + product.getStock();
 	}
+
 	@Override
 	@Transactional
 	public String decProductStock(Long id, Integer stockAmount) {
@@ -142,7 +141,5 @@ public class ProductServiceImpl implements ProductService {
 		product = productRepo.save(product);
 		return "new inventory stock is " + product.getStock();
 	}
-
-
 
 }

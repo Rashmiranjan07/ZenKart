@@ -13,6 +13,7 @@ public class MailTestRunner implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//mailService.sentEmail("rashmiranjanshaw3@gmail.com", "ZenKart project activated");
+		// mailService.sentEmail("rashmiranjanshaw3@gmail.com", "ZenKart project
+		// activated");
 	}
 }
