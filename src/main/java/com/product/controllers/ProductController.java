@@ -31,45 +31,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductController {
 	private final ProductService productService;
-	
+
 	private final ModelMapper modelMapper;
-	
+
 	@PostMapping
-	public ResponseEntity<ApiResponse> addNewProductController(@Valid @RequestBody AddProductDto dto){
-		String serviceResponse=productService.addNewProductService(dto);
-		ApiResponse apiresponse=ApiResponse.builder().serviceName("PRODUCT_SERVICE")
-				.status(true)
-				.type("string").payload(serviceResponse).build();
-		return new ResponseEntity<ApiResponse>(apiresponse,HttpStatus.OK);
-		
+	public ResponseEntity<ApiResponse> addNewProductController(@Valid @RequestBody AddProductDto dto) {
+		String serviceResponse = productService.addNewProductService(dto);
+		ApiResponse apiresponse = ApiResponse.builder().serviceName("PRODUCT_SERVICE").status(true).type("string")
+				.payload(serviceResponse).build();
+		return new ResponseEntity<ApiResponse>(apiresponse, HttpStatus.OK);
+
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<ApiResponse> getProductByIdController(Long id){
-		Product product=productService.getProductByIdService(id);
-		ProductResponseDto dto=modelMapper.entityToProductResponseDtoMapper(product);
-		ApiResponse apiresponse=ApiResponse.builder()
-				.serviceName("PRODUCT_SERVICE")
-				.status(true)
-				.type("object")
-				.payload(dto)
-				.build(); 
-		return new ResponseEntity<ApiResponse>(apiresponse,HttpStatus.OK);
+	public ResponseEntity<ApiResponse> getProductByIdController(Long id) {
+		Product product = productService.getProductByIdService(id);
+		ProductResponseDto dto = modelMapper.entityToProductResponseDtoMapper(product);
+		ApiResponse apiresponse = ApiResponse.builder().serviceName("PRODUCT_SERVICE").status(true).type("object")
+				.payload(dto).build();
+		return new ResponseEntity<ApiResponse>(apiresponse, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ApiResponse> deleteProductByIdController(@PathVariable("id") Long id){
+	public ResponseEntity<ApiResponse> deleteProductByIdController(@PathVariable("id") Long id) {
 		productService.deleteProductByIdService(id);
-		ApiResponse apiResponse=ApiResponse.builder()
-				.serviceName("PRODUCT_SERVICE")
-				.status(true)
-				.type("object")
-				.payload("Product Deleted")
-				.build();
-		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.OK);
-		
+		ApiResponse apiResponse = ApiResponse.builder().serviceName("PRODUCT_SERVICE").status(true).type("object")
+				.payload("Product Deleted").build();
+		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<ApiResponse> updateProductByIdController(@PathVariable("id") Long id,
 			@RequestBody AddProductDto dto) {
@@ -83,35 +74,31 @@ public class ProductController {
 
 	@GetMapping("/catagory")
 	public ResponseEntity<ApiResponse> getProductByCatagories(
-			@RequestParam(name = "catagory", required = false, defaultValue = "FMCG") String catagory,@RequestParam(name="sorting",required=false,defaultValue="ASC") String sorting) 
-	{
-		List<Product> products = productService.getProductByCatagory(catagory,sorting);
+			@RequestParam(name = "catagory", required = false, defaultValue = "FMCG") String catagory,
+			@RequestParam(name = "sorting", required = false, defaultValue = "ASC") String sorting) {
+		List<Product> products = productService.getProductByCatagory(catagory, sorting);
 		List<ProductResponseDto> dtos = products.stream().map(p -> modelMapper.entityToProductResponseDtoMapper(p))
 				.toList();
 
-		ApiResponse apiResponse=ApiResponse.builder()
-				.serviceName("PRODUCT_SERVICE")
-				.status(false)
-				.type("object array")
-				.payload(dtos).build();
+		ApiResponse apiResponse = ApiResponse.builder().serviceName("PRODUCT_SERVICE").status(false)
+				.type("object array").payload(dtos).build();
 		return ResponseEntity.ok(apiResponse);
 	}
-	
+
 	@GetMapping("/page")
-	public ResponseEntity<ApiResponse> getProductByPage(@RequestParam(name = "pageNo", required = false, defaultValue = "0") Integer pageNo,@RequestParam(name = "pageSize", required = false, defaultValue = "12") Integer pageSize,
-		@RequestParam(name="sorting", required = false, defaultValue = "NONE")String sorting) {
+	public ResponseEntity<ApiResponse> getProductByPage(
+			@RequestParam(name = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "12") Integer pageSize,
+			@RequestParam(name = "sorting", required = false, defaultValue = "NONE") String sorting) {
 		List<Product> products = productService.getProductByPageService(pageNo, pageSize, sorting);
 		List<ProductResponseDto> dtos = products.stream().map(p -> modelMapper.entityToProductResponseDtoMapper(p))
 				.toList();
-		ApiResponse apiResponse = ApiResponse.builder()
-				.serviceName("PRODUCT_SERVICE")
-				.status(false)
-				.type("object array")
-				.payload(dtos).build();
+		ApiResponse apiResponse = ApiResponse.builder().serviceName("PRODUCT_SERVICE").status(false)
+				.type("object array").payload(dtos).build();
 		return ResponseEntity.ok(apiResponse);
 
 	}
-	
+
 	@GetMapping("/range")
 	public ResponseEntity<ApiResponse> getProductsByPriceRange(@RequestParam Double min, @RequestParam Double max,
 			@RequestParam(defaultValue = "asc") String sort) {
@@ -124,7 +111,6 @@ public class ProductController {
 				.type("object array").payload(dtos).build();
 		return ResponseEntity.ok(apiResponse);
 	}
-	
 
 	@PatchMapping("/stock/inc/{id}/{amount}")
 	public ResponseEntity<ApiResponse> incStocksController(@PathVariable("id") Long id,
@@ -133,7 +119,7 @@ public class ProductController {
 		ApiResponse apiResponse = new ApiResponse("PRODUCT_SERVICE", true, "string", serviceResponse);
 		return ResponseEntity.ok(apiResponse);
 	}
-	
+
 	@PatchMapping("/stock/dec/{id}/{amount}")
 	public ResponseEntity<ApiResponse> decStocksController(@PathVariable("id") Long id,
 			@PathVariable("amount") Integer stockAmount) {
@@ -141,7 +127,5 @@ public class ProductController {
 		ApiResponse apiResponse = new ApiResponse("PRODUCT_SERVICE", true, "string", serviceResponse);
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 	}
-
-
 
 }

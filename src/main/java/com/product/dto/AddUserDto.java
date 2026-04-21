@@ -1,10 +1,12 @@
 
 package com.product.dto;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,4 +21,3 @@ public class AddUserDto {
 	@NotBlank(message = "Role can't be empty")
 	private String role;
 }
-

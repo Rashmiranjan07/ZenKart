@@ -1,5 +1,6 @@
 
 package com.product.controllers;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,13 @@ import com.product.dto.AddUserDto;
 import com.product.dto.ApiResponse;
 import com.product.dto.EmailOtpVerifyDto;
 import com.product.service.UserService;
+
 @RestController
 @RequestMapping("/api/v2/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
+
 	@PostMapping("/register")
 	public ResponseEntity<ApiResponse> initiateUserVerificationController(@RequestBody AddUserDto dto) {
 		String serviceResponse = userService.initiateUserVerificationService(dto);
@@ -23,7 +26,7 @@ public class UserController {
 				.payload(serviceResponse).build();
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/verification")
 	public ResponseEntity<ApiResponse> finalUserVerificationController(@RequestBody EmailOtpVerifyDto dto) {
 		String serviceResponse = userService.finalUserVerificationService(dto);
@@ -34,4 +37,3 @@ public class UserController {
 	}
 
 }
-

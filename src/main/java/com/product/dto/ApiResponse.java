@@ -12,11 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class ApiResponse {
-	
-	private String serviceName="PRODUCT_SERVICE";
+
+	private String serviceName = "PRODUCT_SERVICE";
 	private boolean status;
 	private String type;
 	private Object payload;
-	
 
 }
