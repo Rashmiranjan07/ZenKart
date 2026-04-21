@@ -1,6 +1,7 @@
-
 package com.product.util;
+
 import org.springframework.stereotype.Component;
+
 @Component
 public class EmailMessageBuilderUtil {
 	public String otpMessageBuilder(String name, Integer otp) {
@@ -12,4 +13,3 @@ public class EmailMessageBuilderUtil {
 		return message.toString();
 	}
 }
-
