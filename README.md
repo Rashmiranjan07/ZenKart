@@ -82,7 +82,7 @@ mvn spring-boot:run
 ### 5️⃣ Swagger UI
 
 ```bash id="87epn7"
-http://localhost:8080/swagger-ui/index.html
+http://localhost:8083/swagger-ui/index.html
 ```
 
 ---
