@@ -69,5 +69,5 @@ http://localhost:8080/swagger-ui/index.html
 
 ## 👨‍💻 Author
 
-**Rashmi Ranjan Shaw**
+**Rashmiranjan Shaw**
 Java Backend Developer | Spring Boot Enthusiast
