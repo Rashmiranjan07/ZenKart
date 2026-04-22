@@ -22,8 +22,10 @@ ZenKart is a modern **E-commerce Backend Application** built using **Java, Sprin
 * **API Testing:** Postman / Swagger
 * **Build Tool:** Maven
 
-## 📂 Project Structure
+---
+## 📁 Project Structure
 
+```
 src/main/java
 ├── controller
 ├── service
@@ -31,6 +33,7 @@ src/main/java
 ├── model
 ├── dto
 └── config
+```
 
 ## ⚙️ Installation & Setup
 
