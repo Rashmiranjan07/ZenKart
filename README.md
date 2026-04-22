@@ -1,44 +1,5 @@
 # 🛒 ZenKart
 
-ZenKart is a modern **E-commerce Backend Application** built using **Java, Spring Boot, Hibernate, MySQL, and REST APIs**. It provides essential shopping platform functionalities such as product management, cart handling, order processing, and secure user authentication.
-
-## 🚀 Features
-
-* 🔐 User Registration & Login Authentication
-* 📦 Product Management (Add, Update, Delete, View)
-* 🛍️ Shopping Cart Functionality
-* 📑 Order Placement & Management
-* 🔎 Search & Filter Products
-* 📊 RESTful APIs with Clean Architecture
-* 🗄️ MySQL Database Integration
-* 📄 API Documentation using Swagger
-
-## 🛠️ Tech Stack
-
-* **Backend:** Java, Spring Boot
-* **ORM:** Hibernate / JPA
-* **Database:** MySQL
-* **Security:** Spring Security / JWT
-* **API Testing:** Postman / Swagger
-* **Build Tool:** Maven
-
----
-## 📁 Project Structure
-
-```
-src/main/java
-├── controller
-├── service
-├── repository
-├── model
-├── dto
-└── config
-```
-
-
-
-# 🚀 ZenKart
-
 ### Modern E-Commerce Backend Application
 
 ZenKart is a robust and scalable **E-commerce Backend Application** built with **Java, Spring Boot, Hibernate, MySQL, and REST APIs**. It powers essential online shopping operations such as product management, cart functionality, secure authentication, and seamless order processing.
