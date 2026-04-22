@@ -49,8 +49,6 @@ src/main/java
 └── exception
 ```
 
----
-
 ## ⚙️ Getting Started
 
 ### 1️⃣ Clone Repository
