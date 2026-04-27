@@ -17,23 +17,24 @@ import jakarta.annotation.PostConstruct;
 public class JWTUtil {
 	@Value("${jwt.signature}")
 	private String jwtSignature;
-	
+
 	private SecretKey secret_key;
-	
+
 	@PostConstruct
 	public void assignKey() {
-		secret_key=Keys.hmacShaKeyFor(jwtSignature.getBytes(StandardCharsets.UTF_8));
+		secret_key = Keys.hmacShaKeyFor(jwtSignature.getBytes(StandardCharsets.UTF_8));
 	}
 
-	public String createJwtToken(String username,List<String >roles) {
-		String token=Jwts.builder()
-				.subject(username)
-				.claim("roles", roles)
-				.issuedAt(new Date())
-				.expiration(new Date(System.currentTimeMillis()+(3600*1000)))
-				.signWith(secret_key)
-				.compact();
+	public String createJwtToken(String username, List<String> roles) {
+		String token = Jwts.builder().subject(username).claim("roles", roles).issuedAt(new Date())
+				.expiration(new Date(System.currentTimeMillis() + (3600 * 1000))).signWith(secret_key).compact();
 		return token;
-				
+
+	}
+
+	public boolean isTokenExpired(String token) {
+		Date expire = Jwts.parser().verifyWith(secret_key).build().parseSignedClaims(token).getPayload()
+				.getExpiration();
+		return expire.before(new Date());
 	}
 }
