@@ -1,4 +1,4 @@
-package com.product.filter;
+package com.product.filters;
 
 import java.io.IOException;
 
